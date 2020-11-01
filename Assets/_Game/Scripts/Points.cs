@@ -5,6 +5,10 @@ namespace BoundfoxStudios.SwingingTower
 {
   public class Points : MonoBehaviour
   {
+    public AudioSource FallSound;
+    public AudioSource KaboomSound;
+    public AudioSource BoingSound;
+    
     [HideInInspector]
     public float PointsToGet;
     private GameController _gameController;
@@ -41,13 +45,25 @@ namespace BoundfoxStudios.SwingingTower
     public void Release()
     {
       _hasBeenReleased = true;
+      FallSound.Play();
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+      if (FallSound.isPlaying)
+      {
+        FallSound.Stop();
+      }
+      
+      BoingSound.Play();
     }
 
     private void OnTriggerEnter(Collider other)
     {
       if (other.CompareTag("Death"))
       {
-        Destroy(gameObject);
+        Destroy(gameObject, 5f);
+        KaboomSound.Play();
       }
     }
   }

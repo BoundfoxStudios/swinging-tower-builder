@@ -8,6 +8,7 @@ namespace BoundfoxStudios.SwingingTower
     public float MaximumAngle = 55;
     public float ChildOffset = 7.5f;
     public AnimationCurve Speed;
+    public AudioSource AudioSource;
 
     private bool TryGetSwingingChild(out Rigidbody rigidbody)
     {
@@ -48,6 +49,7 @@ namespace BoundfoxStudios.SwingingTower
 
     public void Capture(GameObject child)
     {
+      AudioSource.Play();
       child.transform.SetParent(transform);
       child.transform.localRotation = Quaternion.identity;
       OffsetChild();
@@ -57,6 +59,7 @@ namespace BoundfoxStudios.SwingingTower
     {
       if (TryGetSwingingChild(out var child))
       {
+        AudioSource.Stop();
         child.isKinematic = false;
         child.transform.SetParent(null);
         
